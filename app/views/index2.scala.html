@@ -1,0 +1,104 @@
+@(visitorss: List[Visitors], visitorsForm: Form[models.Visitors])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+<style>
+
+        * {
+            text-align: center;
+            font-family: "Century Gothic", sans-serif;
+        }
+
+        h2 {
+            display: inline-block;
+            padding-top: 7vh;
+        }
+
+        table {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            background-color: #ffffff;
+            background-image: linear-gradient(332deg, #ffffff 0%, #b19494 100%);
+            border: 2px solid black;
+        }
+
+        dt {
+            padding-top: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-left: 5vw;
+            padding: 10px;
+            font-size: 22px;
+            text-transform: uppercase;
+            border: 2px solid black;
+            color: #000000;
+            background-color: transparent;
+        }
+
+        span {
+            color: #000000;
+        }
+
+
+        a:hover {
+            color: #000000;
+            text-decoration: none;
+            background-color: pink;
+        }
+
+</style>
+
+@import helper._
+<a href="http://localhost:9000/rooms"><span>Przejdź do pokoi</span></a>
+@main("Lista gości") {
+
+    <h2>Ilość gości: @visitorss.size</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Imie</th>
+                <th scope="col">Nazwisko</th>
+                <th scope="col">ID_pokoju</th>
+                <th scope="col">Data_zam</th>
+                <th scope="col">Data_zwol</th>
+                <th scope="col">Numer_tel</th>
+                <th scope="col">Operacje</th>
+            </tr>
+        </thead>
+        <tbody>
+        @visitorss.map { visitors =>
+            <tr>
+                <td>@visitors.Imie</td>
+                <td>@visitors.Nazwisko</td>
+                <td>@visitors.ID_pokoju</td>
+                <td>@visitors.Data_zam</td>
+                <td>@visitors.Data_zwol</td>
+                <td>@visitors.Numer_tel</td>
+                <td>
+                    @form(helper.CSRF(routes.VisitorsController.edit(visitors.ID_goscia.getOrElse(0)))) {
+                        <input type="submit" value="Edycja">
+                    }
+                    @form(helper.CSRF(routes.VisitorsController.delete(visitors.ID_goscia.getOrElse(0)))) {
+                        <input type="submit" value="Usuń">
+                        }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <h2>Dodaj gościa</h2>
+
+    @form(helper.CSRF(routes.VisitorsController.create)) {
+
+        @inputText(visitorsForm("ID_pokoju"), '_label -> "Wybrany pokój")
+        @inputText(visitorsForm("Data_zam"), '_label -> "Data zameldowania")
+        @inputText(visitorsForm("Data_zwol"), '_label -> "Data wymeldowania")
+        @inputText(visitorsForm("Imie"), '_label -> "Imie")
+        @inputText(visitorsForm("Nazwisko"), '_label -> "Nazwisko")
+        @inputText(visitorsForm("Numer_tel"), '_label -> "Numer telefonu")
+        <input type="submit" value="Dodaj">
+    }
+
+}

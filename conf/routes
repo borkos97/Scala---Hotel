@@ -1,0 +1,38 @@
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# Home page
+GET     /                              controllers.HomeController.index
+
+# Rooms
+GET     /rooms                         controllers.RoomController.index
+POST    /rooms                         controllers.RoomController.create
+POST    /rooms/:ID_pokoju/delete       controllers.RoomController.delete(ID_pokoju: Long)
+POST    /rooms/:ID_pokoju/edit         controllers.RoomController.edit(ID_pokoju: Long)
+POST    /rooms/:ID_pokoju/update       controllers.RoomController.update(ID_pokoju: Long)
+
+# Visitors
+GET     /visitors                      controllers.VisitorsController.index
+POST    /visitors                      controllers.VisitorsController.create
+POST    /visitors/:ID_goscia/delete    controllers.VisitorsController.delete(ID_goscia: Long)
+POST    /visitors/:ID_goscia/edit      controllers.VisitorsController.edit(ID_goscia: Long)
+POST    /visitors/:ID_goscia/update    controllers.VisitorsController.update(ID_goscia: Long)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+# API
+GET     /api/rooms                      controllers.APIRoomController.index
+POST    /api/rooms                      controllers.APIRoomController.create
+GET     /api/rooms/:ID_pokoju           controllers.APIRoomController.show(ID_pokoju: Long)
+POST    /api/rooms/:ID_pokoju/delete    controllers.APIRoomController.delete(ID_pokoju: Long)
+
+
+GET     /api/visitors                      controllers.APIVisitorsController.index
+POST    /api/visitors                      controllers.APIVisitorsController.create
+GET     /api/visitors/:ID_goscia          controllers.APIVisitorsController.show(ID_goscia: Long)
+POST    /api/visitors/:ID_goscia/delete   controllers.APIVisitorsController.delete(ID_goscia: Long)

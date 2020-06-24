@@ -1,0 +1,36 @@
+@(id: Long, roomForm: Form[models.Room])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+<style>
+        * {
+            text-align: center;
+            font-family: "Century Gothic", sans-serif;
+        }
+
+        h2 {
+            display: inline-block;
+            padding-top: 5vh;
+            padding-bottom: 3vh;
+        }
+</style>
+
+@import helper._
+
+@main("Edytuj pokoje") {
+
+    <h2>Edytuj pokoje</h2>
+
+    @form(helper.CSRF(routes.RoomController.update(id))) {
+
+
+        @inputText(roomForm("nazwa_pokoju"))
+        @inputText(roomForm("cena"))
+        @inputText(roomForm("Il_os"))
+        @inputText(roomForm("miasto"))
+        @checkbox(roomForm("lazienka"))
+        @inputText(roomForm("opis"))
+
+        <input type="submit" value="Zmodyfikuj">
+
+    }
+
+}

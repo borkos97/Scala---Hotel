@@ -1,0 +1,109 @@
+@(rooms: List[Room], roomForm: Form[models.Room])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+
+<style>
+
+        * {
+            text-align: center;
+            font-family: "Century Gothic", sans-serif;
+        }
+
+        h2 {
+            display: inline-block;
+            padding-top: 7vh;
+        }
+
+        table {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            background-color: #ffffff;
+            background-image: linear-gradient(332deg, #ffffff 0%, #b19494 100%);
+            border: 2px solid black;
+        }
+
+        dt {
+            padding-top: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-left: 5vw;
+            padding: 10px;
+            font-size: 22px;
+            text-transform: uppercase;
+            border: 2px solid black;
+            color: #000000;
+            background-color: transparent;
+        }
+
+        span {
+            color: #000000;
+        }
+
+
+        a:hover {
+            color: #000000;
+            text-decoration: none;
+            background-color: pink;
+        }
+
+</style>
+
+
+
+@import helper._
+<a href="http://localhost:9000/visitors"><span>Przejdź do gości</span></a>
+@main("Lista pokojów") {
+
+    <h2>Ilość pokoi: @rooms.size</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID pokoju</th>
+                <th scope="col">Nazwa pokoju</th>
+                <th scope="col">Cena</th>
+                <th scope="col">Ilość osób</th>
+                <th scope="col">Miasto</th>
+                <th scope="col">Lazienka</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Operacje</th>
+            </tr>
+        </thead>
+        <tbody>
+        @rooms.map { room =>
+            <tr>
+                <td>@room.ID_pokoju</td>
+                <td>@room.nazwa_pokoju</td>
+                <td>@room.cena</td>
+                <td>@room.Il_os</td>
+                <td>@room.miasto</td>
+                <td>@room.lazienka</td>
+                <td>@room.opis</td>
+                <td>
+                    @form(helper.CSRF(routes.RoomController.edit(room.ID_pokoju.getOrElse(0)))) {
+                        <input type="submit" value="Edycja">
+                    }
+                    @form(helper.CSRF(routes.RoomController.delete(room.ID_pokoju.getOrElse(0)))) {
+                        <input type="submit" value="Usuń">
+                        }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <h2>Dodaj pokój</h2>
+
+    @form(helper.CSRF(routes.RoomController.create)) {
+
+        @inputText(roomForm("nazwa_pokoju"), '_label -> "Nazwa pokoju")
+        @inputText(roomForm("cena"), '_label -> "Cena za pokój")
+        @inputText(roomForm("Il_os"), '_label -> "Ilość osób")
+        @inputText(roomForm("miasto"), '_label -> "Miasto")
+        @checkbox(roomForm("lazienka"), '_label -> "Lazienka", '_help -> "")
+        @inputText(roomForm("opis"), '_label -> "Opis")
+        <input type="submit" value="Stwórz">
+    }
+
+}

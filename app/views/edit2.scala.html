@@ -1,0 +1,36 @@
+@(id: Long, visitorsForm: Form[models.Visitors])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+<style>
+        * {
+            text-align: center;
+            font-family: "Century Gothic", sans-serif;
+        }
+
+        h2 {
+            display: inline-block;
+            padding-top: 5vh;
+            padding-bottom: 3vh;
+        }
+</style>
+
+
+@import helper._
+
+@main("Edytuj dane gości") {
+
+    <h2>Edytuj dane gości</h2>
+
+    @form(helper.CSRF(routes.VisitorsController.update(id))) {
+
+        @inputText(visitorsForm("ID_pokoju"))
+        @inputText(visitorsForm("Data_zam"))
+        @inputText(visitorsForm("Data_zwol"))
+        @inputText(visitorsForm("Imie"))
+        @inputText(visitorsForm("Nazwisko"))
+        @inputText(visitorsForm("Numer_tel"))
+
+        <input type="submit" value="Zmodyfikuj">
+
+    }
+
+}
